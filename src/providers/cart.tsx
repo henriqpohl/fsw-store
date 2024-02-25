@@ -2,7 +2,7 @@
 
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { Product } from "@prisma/client";
-import { ReactNode, createContext, useMemo, useState } from "react";
+import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
   quantity: number;
@@ -37,7 +37,15 @@ export const CartContext = createContext<ICartContext>({
 });
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<CartProduct[]>([]);
+  const [products, setProducts] = useState<CartProduct[]>(
+    // Persistent cart
+    JSON.parse(localStorage.getItem("@fws-store/cart-product") || "[]"),
+  );
+
+  // Persistent cart
+  useEffect(() => {
+    localStorage.setItem("@fws-store/cart-product", JSON.stringify(products));
+  });
 
   // Total sem desconto
   const subtotal = useMemo(() => {
@@ -53,7 +61,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     }, 0);
   }, [products]);
 
-  const totalDiscount = subtotal - total
+  const totalDiscount = subtotal - total;
 
   // const totalDiscount = useMemo(() => {
   //   return subTotal - total
