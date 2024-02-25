@@ -45,9 +45,10 @@ const Cart = () => {
                 />
               ))
             ) : (
-              <p className="text-center font-semibold">
-                Carrinho vazio. Vamos fazer compras?
-              </p>
+              <div className="text-center font-semibold">
+                <p>Carrinho vazio.</p>
+                <p>Vamos fazer compras?</p>
+              </div>
             )}
           </div>
         </ScrollArea>
