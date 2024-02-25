@@ -81,9 +81,9 @@ const ProductInfo = ({
       </Button>
 
       <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2">
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <TruckIcon />
-          <div className="flex flex-col">
+          <div className="flex flex-col gap">
             <p className="text-xs">
               Entrega via <span className="font-bold">FSPacket®</span>
             </p>
