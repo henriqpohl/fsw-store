@@ -24,20 +24,19 @@ const ProductImages = ({ imageUrls, name }: ProductImagesProps) => {
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto max-h-[70%] w-auto max-w-[80%]"
-          style={{ objectFit: "contain" }}
+          className="h-auto max-h-[70%] w-auto max-w-[80%] object-contain"
         />
       </div>
 
       <div className="mt-8 grid grid-cols-4 gap-4 px-5">
         {imageUrls.map((imageUrl) => (
-          <div
+          <button
             key={imageUrl}
             className={`flex h-[100px] items-center justify-center rounded-lg bg-accent
-              ${
-                imageUrl === currentImage &&
-                "border-2 border-solid border-primary"
-              }
+                ${
+                  imageUrl === currentImage &&
+                  "border-2 border-solid border-primary"
+                }
             `}
             onClick={() => handleImageClick(imageUrl)}
           >
@@ -49,7 +48,7 @@ const ProductImages = ({ imageUrls, name }: ProductImagesProps) => {
               sizes="100vw"
               className="h-auto max-h-[70%] w-auto max-w-[80%]"
             />
-          </div>
+          </button>
         ))}
       </div>
     </div>
