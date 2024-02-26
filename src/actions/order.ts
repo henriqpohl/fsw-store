@@ -21,4 +21,6 @@ export const createOrder = async (cartProducts: CartProduct[], userId: string ) 
       },
     },
   });
+
+  return order
 };
