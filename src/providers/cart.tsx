@@ -43,35 +43,28 @@ export const CartContext = createContext<ICartContext>({
 });
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<CartProduct[]>([]);
-
-  const initialRender = useRef(true);
   const LOCAL_STORAGE_KEY = "@fsw-store/cart-products";
 
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) as string)) {
-      const storedCartItems = JSON.parse(
-        localStorage.getItem(LOCAL_STORAGE_KEY) as string,
-      );
-      setProducts([...products, ...storedCartItems]);
+  const [products, setProducts] = useState<CartProduct[]>(() => {
+    if (typeof window !== "undefined") {
+      const recoveryProducts = localStorage.getItem(
+        LOCAL_STORAGE_KEY,
+      ) as string;
+      return JSON.parse(recoveryProducts) ?? [];
+    } else {
+      return [];
     }
-  }, []);
+  });
 
   useEffect(() => {
-    if (initialRender.current) {
-      initialRender.current = false;
-      return;
+    if (typeof window !== "undefined") {
+      if (products.length === 0) {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      } else {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(products));
+      }
     }
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(products));
   }, [products]);
-
-  // useEffect(() => {
-  //   setProducts(JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "[]"));
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(products));
-  // }, [products]);
 
   // Total sem descontos
   const subtotal = useMemo(() => {
