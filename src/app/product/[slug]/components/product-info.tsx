@@ -13,14 +13,12 @@ import {
 import { useContext, useState } from "react";
 
 interface ProductInfoProps {
-  product: ProductWithTotalPrice
+  product: ProductWithTotalPrice;
 }
-const ProductInfo = ({
-  product
-}: ProductInfoProps) => {
+const ProductInfo = ({ product }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
 
-  const { addProductsToCart } = useContext(CartContext);
+  const { addProductToCart: addProductsToCart } = useContext(CartContext);
 
   const handleDecreaseQuantityClick = () => {
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
@@ -31,15 +29,17 @@ const ProductInfo = ({
   };
 
   const handleAddToCart = () => {
-    addProductsToCart({...product, quantity })
-  }
+    addProductsToCart({ ...product, quantity });
+  };
 
   return (
     <div className="flex flex-col px-5">
       <h2 className="text-lg">{product.name}</h2>
 
       <div className="flex items-center gap-1">
-        <h1 className="text-lg font-bold">R$ {product.totalPrice.toFixed(2)}</h1>
+        <h1 className="text-lg font-bold">
+          R$ {product.totalPrice.toFixed(2)}
+        </h1>
         {product.discountPercentage > 0 && (
           <DiscountBadge>{product.discountPercentage}</DiscountBadge>
         )}
@@ -83,7 +83,7 @@ const ProductInfo = ({
       <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2">
         <div className="flex items-center gap-2">
           <TruckIcon />
-          <div className="flex flex-col gap">
+          <div className="gap flex flex-col">
             <p className="text-xs">
               Entrega via <span className="font-bold">FSPacket®</span>
             </p>
